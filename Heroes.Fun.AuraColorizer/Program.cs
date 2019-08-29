@@ -15,7 +15,7 @@ namespace Heroes.Fun.AuraColorizer
 {
     public class Program : IMod
     {
-        private const string ThisModId = "sonicheroes.fun.auracolourizer";
+        private const string ThisModId = "sonicheroes.fun.colourizer";
         private object _lock = new object();
         private IModLoader _modLoader;
 

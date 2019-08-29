@@ -1,7 +1,7 @@
 # Project Output Paths
 $modOutputPath = "Heroes.Fun.AuraColorizer/bin"
 $solutionName = "Heroes.Fun.AuraColorizer.sln"
-$publishName = "Heroes.Fun.AuraColorizer.zip"
+$publishName = "sonicheroes.fun.colourizer.zip"
 $publishDirectory = "Publish"
 
 if ([System.IO.Directory]::Exists($publishDirectory)) {

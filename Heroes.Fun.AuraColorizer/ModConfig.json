@@ -1,9 +1,9 @@
 {
-  "ModId": "sonicheroes.fun.auracolourizer",
-  "ModName": "Sonic Heroes: Aura Colourizer",
+  "ModId": "sonicheroes.fun.colourizer",
+  "ModName": "Sonic Heroes: Colourizer",
   "ModAuthor": "Sewer56",
-  "ModVersion": "1.0.0",
-  "ModDescription": "It makes your characters' jump balls, tornadoes, trails and barrier more like a Corsair Keyboard.",
+  "ModVersion": "1.0.1",
+  "ModDescription": "Sonic Heroes but a bit more like a Corsair Keyboard.",
   "ModDll": "Heroes.Fun.AuraColorizer.dll",
   "ModIcon": "Preview.png",
   "ModDependencies": [],
