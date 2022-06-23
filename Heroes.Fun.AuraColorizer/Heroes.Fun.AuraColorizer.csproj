@@ -37,4 +37,8 @@
     <PackageReference Include="Reloaded.WPF.Animations" Version="1.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Accessibility;
 using Heroes.Fun.AuraColorizer.Collections;
 using Heroes.Fun.AuraColorizer.Enums;
@@ -29,6 +30,8 @@ namespace Heroes.Fun.AuraColorizer
         private ILogger _logger;
         private string _modDirectory;
 
+        private Task _setupColourizer;
+
         public static void Main() { }
         public unsafe void Start(IModLoaderV1 loader)
         {
@@ -36,18 +39,27 @@ namespace Heroes.Fun.AuraColorizer
             _logger = (ILogger) _modLoader.GetLogger();
             _modDirectory = _modLoader.GetDirectoryForModId(ThisModId);
 
-            
             /* Your mod code starts here. */
-            _config = Config.Config.FromJson(_modDirectory);
-            _config.ToJson(_modDirectory);
-            Initialize();
+            _modLoader.OnModLoaderInitialized += OnModLoaderInitialized;
+            _setupColourizer = Task.Run(() =>
+            {
+                _config = Config.Config.FromJson(_modDirectory);
+                _config.ToJson(_modDirectory);
+                Initialize();
 
-            var configDirectory = Path.GetDirectoryName(Config.Config.FilePath(_modDirectory));
-            var fileName = Path.GetFileName(Config.Config.FilePath(_modDirectory));
+                var configDirectory = Path.GetDirectoryName(Config.Config.FilePath(_modDirectory));
+                var fileName = Path.GetFileName(Config.Config.FilePath(_modDirectory));
 
-            _watcher = new FileSystemWatcher(configDirectory, fileName);
-            _watcher.EnableRaisingEvents = true;
-            _watcher.Changed += WatcherOnChanged;
+                _watcher = new FileSystemWatcher(configDirectory, fileName);
+                _watcher.EnableRaisingEvents = true;
+                _watcher.Changed += WatcherOnChanged;
+            });
+        }
+
+        private void OnModLoaderInitialized()
+        {
+            _setupColourizer.Wait();
+            _modLoader.OnModLoaderInitialized -= OnModLoaderInitialized;
         }
 
         private void WatcherOnChanged(object sender, FileSystemEventArgs e)
