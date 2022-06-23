@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace Heroes.Fun.AuraColorizer.Config
 {
     public class HueCycleEffectSettings
     {
+        [DefaultValue(true)]
         public bool  Enable    { get; set; }
 
         [Description("The duration of an entire indvidual hue cycle.")]
+        [DefaultValue(1337)]
         public int   Duration  { get; set; }
 
         [Description("How many times the hue is changed during the Duration of one cycle.")]
+        [DefaultValue(60.0f)]
         public float Framerate { get; set; }
 
         public HueCycleEffectSettings() { }

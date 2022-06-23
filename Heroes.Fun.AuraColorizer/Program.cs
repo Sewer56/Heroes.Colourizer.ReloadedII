@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Accessibility;
 using Heroes.Fun.AuraColorizer.Collections;
 using Heroes.Fun.AuraColorizer.Configuration;
 using Heroes.Fun.AuraColorizer.Enums;
