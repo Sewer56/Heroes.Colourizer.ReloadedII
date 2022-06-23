@@ -88,7 +88,7 @@ namespace Heroes.Fun.AuraColorizer
         public void Cancel()
         {
             Color.SetColor(_originalColor);
-            ColorAnimation.Cancel();
+            ColorAnimation.Cancel(100);
         }
 
         ~RgbaColourAnimation()
