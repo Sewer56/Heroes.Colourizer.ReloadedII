@@ -1,15 +1,29 @@
-{
+﻿{
   "ModId": "sonicheroes.fun.colourizer",
   "ModName": "Sonic Heroes: Colourizer",
   "ModAuthor": "Sewer56",
-  "ModVersion": "1.0.3",
+  "ModVersion": "1.1.0",
   "ModDescription": "Sonic Heroes but a bit more like a Corsair Keyboard.",
   "ModDll": "Heroes.Fun.AuraColorizer.dll",
+  "ModIcon": "Preview.png",
   "ModR2RManagedDll32": "x86/Heroes.Fun.AuraColorizer.dll",
   "ModR2RManagedDll64": "x64/Heroes.Fun.AuraColorizer.dll",
   "ModNativeDll32": "",
   "ModNativeDll64": "",
-  "ModIcon": "Preview.png",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "Sewer56.Update.ReleaseMetadata.json",
+  "PluginData": {
+    "NuGet": {
+      "AllowUpdateFromAnyRepository": false,
+      "DefaultRepositoryUrls": [
+        "http://packages.sewer56.moe:5000/v3/index.json"
+      ]
+    }
+  },
+  "IsUniversalMod": false,
   "ModDependencies": [],
-  "SupportedAppId": [ "tsonic_win.exe" ]
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "tsonic_win.exe"
+  ]
 }

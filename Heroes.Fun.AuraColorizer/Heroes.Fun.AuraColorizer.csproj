@@ -8,6 +8,7 @@
     <OutputType>WinExe</OutputType>
     <StartupObject />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>$(RELOADEDIIMODS)\sonicheroes.fun.colourizer</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
