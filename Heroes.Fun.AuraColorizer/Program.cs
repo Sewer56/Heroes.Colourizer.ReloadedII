@@ -29,12 +29,14 @@ namespace Heroes.Fun.AuraColorizer
         private ILogger _logger;
         private string _modDirectory;
 
+        public static void Main() { }
         public unsafe void Start(IModLoaderV1 loader)
         {
             _modLoader = (IModLoader) loader;
             _logger = (ILogger) _modLoader.GetLogger();
             _modDirectory = _modLoader.GetDirectoryForModId(ThisModId);
 
+            
             /* Your mod code starts here. */
             _config = Config.Config.FromJson(_modDirectory);
             _config.ToJson(_modDirectory);
