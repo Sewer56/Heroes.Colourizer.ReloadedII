@@ -1,6 +1,6 @@
 # Project Output Paths
 $modOutputPath = "Release"
-$solutionName = "Heroes.Fun.AuraColorizer.sln"
+$solutionName = "Heroes.Fun.AuraColorizer/Heroes.Fun.AuraColorizer.csproj"
 $publishName = "sonicheroes.fun.colourizer.zip"
 $publishDirectory = "Publish"
 
@@ -8,6 +8,7 @@ $publishDirectory = "Publish"
 
 # Clean anything in existing Release directory.
 Remove-Item $modOutputPath -Recurse
+Remove-Item $publishDirectory -Recurse
 New-Item $modOutputPath -ItemType Directory
 New-Item $publishDirectory -ItemType Directory
 

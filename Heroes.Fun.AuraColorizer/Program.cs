@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Accessibility;
 using Heroes.Fun.AuraColorizer.Collections;
+using Heroes.Fun.AuraColorizer.Configuration;
 using Heroes.Fun.AuraColorizer.Enums;
 using Heroes.Fun.AuraColorizer.Heroes;
 using Reloaded.Mod.Interfaces;
@@ -26,11 +27,11 @@ namespace Heroes.Fun.AuraColorizer
         private RgbaColourAnimation<RgbaColorComponentPtrSet>[] _formationGateAnimations;
 
         private Config.Config _config;
-        private FileSystemWatcher _watcher;
         private ILogger _logger;
         private string _modDirectory;
 
         private Task _setupColourizer;
+        private Configurator _configurator;
 
         public static void Main() { }
         public unsafe void Start(IModLoaderV1 loader)
@@ -43,16 +44,20 @@ namespace Heroes.Fun.AuraColorizer
             _modLoader.OnModLoaderInitialized += OnModLoaderInitialized;
             _setupColourizer = Task.Run(() =>
             {
-                _config = Config.Config.FromJson(_modDirectory);
-                _config.ToJson(_modDirectory);
+                _configurator = new Configurator(_modDirectory);
+                _config = _configurator.GetConfiguration<Config.Config>(0);
+                _config.ConfigurationUpdated += configurable =>
+                {
+                    _config = (Config.Config)configurable;
+                    _logger.WriteLine("[Colorizer] Config file changed. Cancelling current effects and applying new.", _logger.ColorGreenLight);
+                    lock (_lock)
+                    {
+                        CancelAll();
+                        Initialize();
+                    }
+                };
+
                 Initialize();
-
-                var configDirectory = Path.GetDirectoryName(Config.Config.FilePath(_modDirectory));
-                var fileName = Path.GetFileName(Config.Config.FilePath(_modDirectory));
-
-                _watcher = new FileSystemWatcher(configDirectory, fileName);
-                _watcher.EnableRaisingEvents = true;
-                _watcher.Changed += WatcherOnChanged;
             });
         }
 
@@ -60,17 +65,6 @@ namespace Heroes.Fun.AuraColorizer
         {
             _setupColourizer.Wait();
             _modLoader.OnModLoaderInitialized -= OnModLoaderInitialized;
-        }
-
-        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
-        {
-            lock (_lock)
-            {
-                CancelAll();
-                _logger.WriteLine("[AuraColorizer] Config file changed. Cancelling current effects and applying new.", _logger.ColorGreenLight);
-                _config = Config.Config.FromJson(_modDirectory);
-                Initialize();
-            }
         }
 
         private void CancelAll()
