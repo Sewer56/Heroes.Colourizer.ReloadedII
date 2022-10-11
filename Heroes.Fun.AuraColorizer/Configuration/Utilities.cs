@@ -1,45 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
+﻿using System.Diagnostics;
 
-namespace Heroes.Fun.AuraColorizer.Configuration
+namespace Heroes.Fun.AuraColorizer.Configuration;
+
+public class Utilities
 {
-    public class Utilities
+    /// <param name="getValue">Function that retrieves the value.</param>
+    /// <param name="timeout">The timeout in milliseconds.</param>
+    /// <param name="sleepTime">Amount of sleep per iteration/attempt.</param>
+    /// <param name="token">Token that allows for cancellation of the task.</param>
+    /// <exception cref="Exception">Timeout expired.</exception>
+    public static T TryGetValue<T>(Func<T> getValue, int timeout, int sleepTime, CancellationToken token = default)
     {
-        /// <param name="getValue">Function that retrieves the value.</param>
-        /// <param name="timeout">The timeout in milliseconds.</param>
-        /// <param name="sleepTime">Amount of sleep per iteration/attempt.</param>
-        /// <param name="token">Token that allows for cancellation of the task.</param>
-        /// <exception cref="Exception">Timeout expired.</exception>
-        public static T TryGetValue<T>(Func<T> getValue, int timeout, int sleepTime, CancellationToken token = default)
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
+        bool valueSet = false;
+        T value = default;
+
+        while (watch.ElapsedMilliseconds < timeout)
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            bool valueSet = false;
-            T value = default;
+            if (token.IsCancellationRequested)
+                return value;
 
-            while (watch.ElapsedMilliseconds < timeout)
+            try
             {
-                if (token.IsCancellationRequested)
-                    return value;
-
-                try
-                {
-                    value = getValue();
-                    valueSet = true;
-                    break;
-                }
-                catch (Exception) { /* Ignored */ }
-
-                Thread.Sleep(sleepTime);
+                value = getValue();
+                valueSet = true;
+                break;
             }
+            catch (Exception) { /* Ignored */ }
 
-            if (valueSet == false)
-                throw new Exception($"Timeout limit {timeout} exceeded.");
-
-            return value;
+            Thread.Sleep(sleepTime);
         }
+
+        if (valueSet == false)
+            throw new Exception($"Timeout limit {timeout} exceeded.");
+
+        return value;
     }
 }
